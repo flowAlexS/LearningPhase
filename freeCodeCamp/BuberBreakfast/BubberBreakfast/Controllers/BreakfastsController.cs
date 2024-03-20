@@ -88,7 +88,7 @@ namespace BubberBreakfast.Controllers
         public IActionResult DeleteBreakfast(Guid id)
         {
             _breakfastService.DeleteBreakfast(id);
-            return Ok();
+            return NoContent();
         }
     }
 }
