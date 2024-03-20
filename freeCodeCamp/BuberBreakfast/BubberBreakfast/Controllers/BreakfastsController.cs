@@ -1,16 +1,42 @@
-﻿using BuberBreakfast.Contracts.Breakfast;
+﻿using BubberBreakfast.Models;
+using BuberBreakfast.Contracts.Breakfast;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BubberBreakfast.Controllers
 {
     [ApiController]
-    [Route("breakfasts")]
+    [Route("[controller]")]
     public class BreakfastsController : ControllerBase
     {
         [HttpPost("")]
         public IActionResult CreateBreakfast(CreateBreakfastRequest request)
         {
-            return Ok();
+            var breakfast = new Breakfast(
+                Guid.NewGuid(),
+                request.Name,
+                request.Description,
+                request.StartDateTime,
+                request.EndDateTime,
+                DateTime.UtcNow,
+                request.Savory,
+                request.Sweet);
+
+            // Todo: Save data to db.
+
+            var response = new BreakfastResponse(
+                breakfast.Id,
+                breakfast.Name,
+                breakfast.Description,
+                breakfast.StartDateTime,
+                breakfast.EndDateTime,
+                breakfast.LastModifiedDateTime,
+                breakfast.Savory,
+                breakfast.Sweet);
+
+            return CreatedAtAction(
+                actionName: nameof(GetBreakfast),
+                routeValues: new { id = breakfast.Id },
+                value: response);
         }
 
         [HttpGet("{id:guid}")]
