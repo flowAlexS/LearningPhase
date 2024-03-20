@@ -21,7 +21,7 @@ namespace BubberBreakfast.Controllers
         [HttpPut("breakfasts/{id:guid}")]
         public IActionResult UpsertBreakfast(Guid id, UpsertBreakfastRequest request)
         {
-            return Ok(upsertBreakfastRequest);
+            return Ok(request);
         }
 
         [HttpDelete("breakfasts/{id:guid}")]
