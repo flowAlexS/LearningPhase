@@ -6,9 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BubberBreakfast.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class BreakfastsController : ControllerBase
+    public class BreakfastsController : ApiController
     {
         private readonly IBreakfastService _breakfastService;
 
@@ -30,22 +28,11 @@ namespace BubberBreakfast.Controllers
                 request.Savory,
                 request.Sweet);
 
-            _breakfastService.CreateBreakfast(breakfast);
+            var createBreakfastResult = _breakfastService.CreateBreakfast(breakfast);
 
-            var response = new BreakfastResponse(
-                breakfast.Id,
-                breakfast.Name,
-                breakfast.Description,
-                breakfast.StartDateTime,
-                breakfast.EndDateTime,
-                breakfast.LastModifiedDateTime,
-                breakfast.Savory,
-                breakfast.Sweet);
-
-            return CreatedAtAction(
-                actionName: nameof(GetBreakfast),
-                routeValues: new { id = breakfast.Id },
-                value: response);
+            return createBreakfastResult.Match(
+                onError: errors => Problem(errors),
+                onValue: created => CreatedAsGetBreakfast(breakfast));
         }
 
         [HttpGet("{id:guid}")]
@@ -55,7 +42,7 @@ namespace BubberBreakfast.Controllers
 
             return getBreakfastResult.Match(
                 onValue: breakfast => Ok(MapBreakfastResponse(breakfast)),
-                onError: errors => Problem());
+                onError: errors => Problem(errors));
         }
 
         [HttpPut("{id:guid}")]
@@ -71,17 +58,21 @@ namespace BubberBreakfast.Controllers
                 request.Savory,
                 request.Sweet);
 
-            _breakfastService.UpsertBreakfast(breakfast);
+            var updatedBreakfastResult = _breakfastService.UpsertBreakfast(breakfast);
 
-            // TODO: return 201 if a new breakfast was created..
-            return NoContent();
+            return updatedBreakfastResult.Match(
+                onValue: updated => updated.isNewlyCreated ? CreatedAsGetBreakfast(breakfast) :  NoContent(),
+                onError: errors => Problem(errors));
         }
 
         [HttpDelete("{id:guid}")]
         public IActionResult DeleteBreakfast(Guid id)
         {
-            _breakfastService.DeleteBreakfast(id);
-            return NoContent();
+            var deleteBreakfastResponse = _breakfastService.DeleteBreakfast(id);
+
+            return deleteBreakfastResponse.Match(
+                onValue: deleted => NoContent(),
+                onError: errors => Problem(errors));
         }
 
         private static BreakfastResponse MapBreakfastResponse(Breakfast breakfast)
@@ -93,5 +84,11 @@ namespace BubberBreakfast.Controllers
                 breakfast.LastModifiedDateTime,
                 breakfast.Savory,
                 breakfast.Sweet);
+
+        private CreatedAtActionResult CreatedAsGetBreakfast(Breakfast breakfast)
+        => CreatedAtAction(
+                    actionName: nameof(GetBreakfast),
+                    routeValues: new { id = breakfast.Id },
+                    value: MapBreakfastResponse(breakfast));
     }
 }

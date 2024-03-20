@@ -8,11 +8,19 @@ namespace BubberBreakfast.Services.Breakfasts
     {
         private static readonly Dictionary<Guid, Breakfast> _breakfasts = new ();
 
-        public void CreateBreakfast(Breakfast breakfast)
-        => _breakfasts.Add(breakfast.Id, breakfast);
+        public ErrorOr<Created> CreateBreakfast(Breakfast breakfast)
+        {
+            _breakfasts.Add(breakfast.Id, breakfast);
 
-        public void DeleteBreakfast(Guid id)
-        => _breakfasts.Remove(id);
+            return Result.Created;
+        }
+
+        public ErrorOr<Deleted> DeleteBreakfast(Guid id)
+        {
+            _breakfasts.Remove(id);
+
+            return Result.Deleted;
+        }
 
         public ErrorOr<Breakfast> GetBreakfast(Guid id)
         {
@@ -24,7 +32,12 @@ namespace BubberBreakfast.Services.Breakfasts
             return Errors.Breakfast.NotFound();
         }
 
-        public void UpsertBreakfast(Breakfast breakfast)
-        => _breakfasts[breakfast.Id] = breakfast;
+        public ErrorOr<UpsertedBreakfast> UpsertBreakfast(Breakfast breakfast)
+        {
+            var isNewlyCreated = !_breakfasts.ContainsKey(breakfast.Id);
+            _breakfasts[breakfast.Id] = breakfast;
+
+            return new UpsertedBreakfast(isNewlyCreated);
+        }
     }
 }
