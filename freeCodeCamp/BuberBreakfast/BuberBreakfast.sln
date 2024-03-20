@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{1B28A514-7
 		Api.md = Api.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BubberBreakfast", "BubberBreakfast\BubberBreakfast.csproj", "{2365CED5-1E5A-469E-8C62-50356339AE2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{703C56D7-7883-4695-AEDC-E89DD8C399FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{703C56D7-7883-4695-AEDC-E89DD8C399FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{703C56D7-7883-4695-AEDC-E89DD8C399FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2365CED5-1E5A-469E-8C62-50356339AE2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2365CED5-1E5A-469E-8C62-50356339AE2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2365CED5-1E5A-469E-8C62-50356339AE2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2365CED5-1E5A-469E-8C62-50356339AE2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
