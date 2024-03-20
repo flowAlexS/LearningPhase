@@ -1,4 +1,5 @@
 ﻿using BubberBreakfast.Models;
+using BubberBreakfast.ServiceErrors;
 using BubberBreakfast.Services.Breakfasts;
 using BuberBreakfast.Contracts.Breakfast;
 using Microsoft.AspNetCore.Mvc;
@@ -50,19 +51,11 @@ namespace BubberBreakfast.Controllers
         [HttpGet("{id:guid}")]
         public IActionResult GetBreakfast(Guid id)
         {
-            var breakfast = _breakfastService.GetBreakfast(id);
+            var getBreakfastResult = _breakfastService.GetBreakfast(id);
 
-            var response = new BreakfastResponse(
-                breakfast.Id,
-                breakfast.Name,
-                breakfast.Description,
-                breakfast.StartDateTime,
-                breakfast.EndDateTime,
-                breakfast.LastModifiedDateTime,
-                breakfast.Savory,
-                breakfast.Sweet);
-
-            return Ok(response);
+            return getBreakfastResult.Match(
+                onValue: breakfast => Ok(MapBreakfastResponse(breakfast)),
+                onError: errors => Problem());
         }
 
         [HttpPut("{id:guid}")]
@@ -90,5 +83,15 @@ namespace BubberBreakfast.Controllers
             _breakfastService.DeleteBreakfast(id);
             return NoContent();
         }
+
+        private static BreakfastResponse MapBreakfastResponse(Breakfast breakfast)
+        => new  (breakfast.Id,
+                breakfast.Name,
+                breakfast.Description,
+                breakfast.StartDateTime,
+                breakfast.EndDateTime,
+                breakfast.LastModifiedDateTime,
+                breakfast.Savory,
+                breakfast.Sweet);
     }
 }
