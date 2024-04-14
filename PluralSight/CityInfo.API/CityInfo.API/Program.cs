@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.StaticFiles;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 // Add services to the container.
 // Handles different formats
 builder.Services.AddControllers(options =>
