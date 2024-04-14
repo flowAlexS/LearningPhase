@@ -7,7 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers(options =>
 {
     options.ReturnHttpNotAcceptable = true;
-}).AddXmlDataContractSerializerFormatters(); // Add XML support to the API
+})  
+.AddNewtonsoftJson()
+.AddXmlDataContractSerializerFormatters(); // Add XML support to the API
 
 // Manipulate errors..
 //builder.Services.AddProblemDetails(options =>
