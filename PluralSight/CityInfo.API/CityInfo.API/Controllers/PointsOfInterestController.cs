@@ -40,6 +40,11 @@ namespace CityInfo.API.Controllers
             int cityId,
             [FromBody]PointOfInterestForCreationDto pointOfInterest)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var city = CitiesDataStore.Current.Cities.FirstOrDefault(city => city.Id == cityId);
 
             if (city is null)
