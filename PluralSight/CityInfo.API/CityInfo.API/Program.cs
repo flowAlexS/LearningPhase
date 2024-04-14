@@ -12,6 +12,7 @@ builder.Services.AddControllers(options =>
 .AddNewtonsoftJson() // Use for Patching a resource
 .AddXmlDataContractSerializerFormatters(); // Add XML support to the API
 
+builder.Services.AddProblemDetails(); // Using exception and logger..
 // Manipulate errors..
 //builder.Services.AddProblemDetails(options =>
 //{
@@ -26,6 +27,11 @@ builder.Services.AddSingleton<FileExtensionContentTypeProvider>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
