@@ -36,5 +36,29 @@ namespace CityInfo.API.Controllers
             var bytes = System.IO.File.ReadAllBytes(pathToFile);
             return File(bytes, contentType, Path.GetFileName(pathToFile));
         }
+
+        [HttpPost]
+        public async Task<ActionResult> CreateFile(IFormFile file) // File sent through http
+        {
+            // Validation
+            if (file.Length == 0)
+            {
+                return BadRequest();
+            }
+
+            // CreateFile
+            // Avoid FileName for malicious attacks..
+
+            var path = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                $"{file.FileName}");
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return Ok();
+        }
     }
 }
