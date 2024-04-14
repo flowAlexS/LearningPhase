@@ -8,7 +8,7 @@ builder.Services.AddControllers(options =>
 {
     options.ReturnHttpNotAcceptable = true;
 })  
-.AddNewtonsoftJson()
+.AddNewtonsoftJson() // Use for Patching a resource
 .AddXmlDataContractSerializerFormatters(); // Add XML support to the API
 
 // Manipulate errors..

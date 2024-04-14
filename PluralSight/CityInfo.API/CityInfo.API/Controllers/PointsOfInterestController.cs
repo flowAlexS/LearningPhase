@@ -1,4 +1,5 @@
 ﻿using CityInfo.API.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.API.Controllers
@@ -91,6 +92,42 @@ namespace CityInfo.API.Controllers
 
             pointOfInterestFromStore.Name = pointOfInterest.Name;
             pointOfInterestFromStore.Description = pointOfInterest.Description;
+
+            return NoContent();
+        }
+
+        [HttpPatch("{pointofinterestid}")]
+        public ActionResult PartiallyUpdatePointOfInterest(
+            int cityId, int pointOfInterestId,
+            JsonPatchDocument<PointOfInterestForUpdateDto> patchDocument)
+        {
+            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            if (city is null)
+            {
+                return NotFound();
+            }
+                
+            var pointOfInterestFromStore = city.PointsOfInterest.FirstOrDefault(p => p.Id == pointOfInterestId);
+            if (pointOfInterestFromStore is null)
+            {
+                return NotFound();
+            }
+
+            var pointOfInterestToPatch = new PointOfInterestForUpdateDto()
+            {
+                Name = pointOfInterestFromStore.Name,
+                Description = pointOfInterestFromStore.Description
+            };
+            
+            patchDocument.ApplyTo(pointOfInterestToPatch, ModelState); // Apply the operations on the pointOfInterestToPatch and validation..
+
+            if (!ModelState.IsValid) // Invalid..
+            {
+                return BadRequest();
+            }
+
+            pointOfInterestFromStore.Name = pointOfInterestToPatch.Name;
+            pointOfInterestFromStore.Description = pointOfInterestToPatch.Description;
 
             return NoContent();
         }
