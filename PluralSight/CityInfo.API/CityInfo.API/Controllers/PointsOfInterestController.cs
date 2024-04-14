@@ -1,5 +1,4 @@
 ﻿using CityInfo.API.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.API.Controllers
@@ -22,8 +21,18 @@ namespace CityInfo.API.Controllers
         public ActionResult<PointOfInterestDto> GetPointOfInterest(
             int cityId, int pointOfInterestId)
         {
+            var city = CitiesDataStore.Current.Cities.FirstOrDefault(city => city.Id == cityId);
 
-            throw new NotImplementedException();
+            if (city is null)
+            {
+                return NotFound();
+            }
+
+            var pointOfInterest = city.PointsOfInterest.FirstOrDefault(point => point.Id == pointOfInterestId);
+
+            return pointOfInterest is null
+                ? NotFound()
+                : Ok(pointOfInterest);
         }
     }
 }
