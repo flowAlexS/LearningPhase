@@ -1,6 +1,7 @@
 ﻿using CityInfo.API.Models;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 
 namespace CityInfo.API.Controllers
 {
@@ -126,9 +127,33 @@ namespace CityInfo.API.Controllers
                 return BadRequest();
             }
 
+            if (!TryValidateModel(pointOfInterestToPatch)) // Validate the model is still valid after the patch operations..
+            {
+                return BadRequest();
+            }
+
             pointOfInterestFromStore.Name = pointOfInterestToPatch.Name;
             pointOfInterestFromStore.Description = pointOfInterestToPatch.Description;
 
+            return NoContent();
+        }
+
+        [HttpDelete("{pointofinterestid}")]
+        public ActionResult DeletePointOfInterest(int cityId, int pointOfInterestId)
+        {
+            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            if (city is null)
+            {
+                return NotFound();
+            }
+
+            var pointOfInterest = city.PointsOfInterest.FirstOrDefault(p => p.Id == pointOfInterestId);
+            if (pointOfInterest is null)
+            {
+                return NotFound();
+            }
+
+            city.PointsOfInterest.Remove(pointOfInterest);
             return NoContent();
         }
     }
