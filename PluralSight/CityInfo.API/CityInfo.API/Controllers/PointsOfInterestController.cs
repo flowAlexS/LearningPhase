@@ -68,5 +68,13 @@ namespace CityInfo.API.Controllers
                 new { cityId, maxPointOfInterestId },
                 finalPointOfInterest);
         }
+
+        [HttpPut("{pointofinterestid}")]
+        public ActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId,
+            PointOfInterestForUpdateDto pointOfInterest)
+        {
+
+            throw new NotImplementedException();
+        }
     }
 }
