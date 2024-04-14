@@ -48,7 +48,6 @@ namespace CityInfo.API.Controllers
 
             // CreateFile
             // Avoid FileName for malicious attacks..
-
             var path = Path.Combine(
                 Directory.GetCurrentDirectory(),
                 $"{file.FileName}");
