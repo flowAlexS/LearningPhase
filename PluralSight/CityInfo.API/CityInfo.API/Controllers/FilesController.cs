@@ -12,8 +12,10 @@ namespace CityInfo.API.Controllers
         private readonly FileExtensionContentTypeProvider _fileExtensionContentTypeProvider;
 
         public FilesController(FileExtensionContentTypeProvider fileExtensionContentTypeProvider)
-        => _fileExtensionContentTypeProvider = fileExtensionContentTypeProvider 
+        {
+            _fileExtensionContentTypeProvider = fileExtensionContentTypeProvider 
             ?? throw new ArgumentNullException(nameof(fileExtensionContentTypeProvider));
+        }
 
         [HttpGet("{fileId}")]
         public ActionResult GetFile(string fileId)

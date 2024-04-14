@@ -4,18 +4,8 @@ namespace CityInfo.API
 {
     public class CitiesDataStore
     {
-        private static CitiesDataStore instance;
-
         public List<CityDto> Cities { get; set; }
         //  public static CitiesDataStore Current { get; } = new CitiesDataStore();
-
-        public static CitiesDataStore Current {
-            get
-            {
-                instance ??= new CitiesDataStore();
-
-                return instance;
-            } }
 
         public CitiesDataStore()
         {
