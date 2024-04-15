@@ -9,16 +9,13 @@ namespace CityInfo.API.Controllers
     [Route("api/cities")]
     public class CitiesController : ControllerBase
     {
-        private readonly CitiesDataStore _citiesDataStore;
         private readonly ICityInfoRepository _cityInfoRepository;
         private readonly IMapper _mapper;
 
         public CitiesController(
-            CitiesDataStore citiesDataStore,
             ICityInfoRepository cityInfoRepository, 
             IMapper mapper)
         {
-            _citiesDataStore = citiesDataStore ?? throw new ArgumentNullException(nameof(citiesDataStore));
             _cityInfoRepository = cityInfoRepository ?? throw new ArgumentNullException(nameof(cityInfoRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
@@ -31,13 +28,17 @@ namespace CityInfo.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<CityDto> GetCity(int id)
+        public async Task<ActionResult> GetCity(int id, bool includePointsOfInterest = false)
         {
-            var cityToReturn = _citiesDataStore.Cities.FirstOrDefault(x => x.Id == id);
+            var city = await _cityInfoRepository.GetCityAsync(id, includePointsOfInterest);
+            if (city is null)
+            {
+                return NotFound();
+            }
 
-            return cityToReturn is null
-                ? NotFound()
-                : Ok(cityToReturn);
+            return Ok(includePointsOfInterest
+                ? _mapper.Map<CityDto>(city)
+                : _mapper.Map<CityWithoutPointsOfInterestDto>(city));
         }
     }
 }
