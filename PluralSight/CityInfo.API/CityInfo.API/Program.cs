@@ -1,5 +1,6 @@
 using CityInfo.API;
 using CityInfo.API.DbContext;
+using CityInfo.API.Profiles;
 using CityInfo.API.Services;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,9 @@ builder.Services.AddDbContext<CityInfoContext>(dbContextOptions =>
     dbContextOptions.UseSqlite(builder.Configuration["ConnectionStrings:CityInfoDBConnectionString"]));
 
 builder.Services.AddScoped<ICityInfoRepository, CityInfoRepository>();
+
+// Adding Automapper..
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
