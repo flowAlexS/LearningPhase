@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CityInfo.API.Entities;
 using CityInfo.API.Models;
 using CityInfo.API.Services;
 using Microsoft.AspNetCore.JsonPatch;
@@ -70,39 +71,31 @@ namespace CityInfo.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<PointOfInterestDto> CreatePointOfInterest(
+        public async Task<ActionResult<PointOfInterestDto>> CreatePointOfInterest(
             int cityId,
             PointOfInterestForCreationDto pointOfInterest)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var city = _citiesDataStore.Cities.FirstOrDefault(city => city.Id == cityId);
-
-            if (city is null)
+            if (!await _cityInfoRepository.CityExistsAsync(cityId))
             {
                 return NotFound();
             }
 
-            var maxPointOfInterestId = _citiesDataStore.Cities.SelectMany(
-                            c => c.PointsOfInterest).Max(p => p.Id);
+            var finalPointsOfInterest = _mapper.Map<PointOfInterest>(pointOfInterest);
 
-            var finalPointOfInterest = new PointOfInterestDto()
-            {
-                Id = maxPointOfInterestId + 1,
-                Name = pointOfInterest.Name,
-                Description = pointOfInterest.Description,
-            };
+            await _cityInfoRepository.AddPointOfInterestForCityAsync(cityId, finalPointsOfInterest);
 
-            city.PointsOfInterest.Add(finalPointOfInterest);
+            await _cityInfoRepository.SaveChangesAsync();
+
+            var createdPointOfInterestToReturn =
+                _mapper.Map<PointOfInterestDto>(finalPointsOfInterest);
 
             return CreatedAtRoute("GetPointOfInterest",
-                new {
+                new
+                {
                     cityId = cityId,
-                    pointOfInterestId = maxPointOfInterestId },
-                finalPointOfInterest);
+                    pointOfInterestId = createdPointOfInterestToReturn.Id
+                },
+                createdPointOfInterestToReturn);
         }
 
         [HttpPut("{pointofinterestid}")]
