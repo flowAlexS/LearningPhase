@@ -24,6 +24,11 @@ namespace CityInfo.API.Services
             return await _context.Cities.AnyAsync(c => c.Id == cityId);
         }
 
+        public void DeletePointOfInterest(PointOfInterest pointOfInterest)
+        {
+            _context.PointsOfInterests.Remove(pointOfInterest);
+        }
+
         public async Task<IEnumerable<City>> GetCitiesAsync()
         {
             return await _context.Cities.OrderBy(c => c.Name).ToListAsync();
