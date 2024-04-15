@@ -1,9 +1,17 @@
-﻿using CityInfo.API.Entities;
+﻿using CityInfo.API.DbContext;
+using CityInfo.API.Entities;
 
 namespace CityInfo.API.Services
 {
     public class CityInfoRepository : ICityInfoRepository
     {
+        private readonly CityInfoContext _context;
+
+        public CityInfoRepository(CityInfoContext context)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
         public Task<IEnumerable<City>> GetCitiesAsync()
         {
             throw new NotImplementedException();
@@ -14,7 +22,9 @@ namespace CityInfo.API.Services
             throw new NotImplementedException();
         }
 
-        public Task<PointOfInterest?> GetPointOfInterestForACity(int cityId, int pointOfInterestId)
+        public Task<PointOfInterest?> GetPointOfInterestForACityAsync(
+            int cityId,
+            int pointOfInterestId)
         {
             throw new NotImplementedException();
         }
