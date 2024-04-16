@@ -72,6 +72,16 @@ builder.Services.AddAuthentication("Bearer")
         };
     });
 
+// Added policy authorization..
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("MustBeFromAntwerp", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("city", "Antwerp");
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
