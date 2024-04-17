@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" FontSize="20">
     <Grid>
+
         <!-- Self closing element -->
         <Button
                 x:Name="btnAddCustomer"
@@ -15,13 +16,12 @@
                 Margin="10"
                 Width="75"
                 Click="ButtonAddCustomer_Click" >
-            <Button.Content>
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Images/add.png" Height="18"></Image>
-                    <TextBlock Text="Add"></TextBlock>
-                </StackPanel>
-            </Button.Content>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Images/add.png"
+                       Height="18" Margin="0 0 5 0"/>
+                
+                <TextBlock Text="Add" />
+            </StackPanel>
         </Button>
-
     </Grid>
 </Window>
