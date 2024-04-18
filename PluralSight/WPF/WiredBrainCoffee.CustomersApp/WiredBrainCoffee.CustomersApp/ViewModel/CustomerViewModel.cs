@@ -5,7 +5,7 @@ using WiredBrainCoffee.CustomersApp.Model;
 
 namespace WiredBrainCoffee.CustomersApp.ViewModel
 {
-    public class CustomerViewModel : INotifyPropertyChanged
+    public class CustomerViewModel : ViewModelBase
     {
         private readonly ICustomerDataProvider _customerDataProvider;
         private Customer? _selectedCustomer;
@@ -26,8 +26,6 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
                 RaisePropertyChange(nameof(SelectedCustomer));
             }
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public async Task LoadAsync()
         {
@@ -53,11 +51,6 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
             var customer = new Customer() { FirstName = "New" };
             Customers.Add(customer);
             SelectedCustomer = customer;
-        }
-
-        private void RaisePropertyChange(string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
