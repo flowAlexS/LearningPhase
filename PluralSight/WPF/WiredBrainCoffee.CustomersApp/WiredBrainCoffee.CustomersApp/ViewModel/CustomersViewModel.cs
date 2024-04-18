@@ -30,8 +30,6 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
 
         public DelegateCommand MoveNavigationCommand { get; }
 
-        // Todo Add DeleteCommand...
-
         public CustomerItemViewModel? SelectedCustomer
         {
             get => _selectedCustomer;
