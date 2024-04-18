@@ -16,8 +16,7 @@
 
         <!-- Customer list -->
         <Grid
-            x:Name="customerListGrid"
-            Grid.Column="0" Background="#777">
+            Grid.Column="{Binding NavigationColumn}" Background="#777">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition />

@@ -37,10 +37,9 @@ namespace WiredBrainCoffee.CustomersApp.View
             await _viewModel.LoadAsync();
         }
 
-        public void ButtonMoveNavigation_Click(object sender, RoutedEventArgs e)
+        private void ButtonMoveNavigation_Click(object sender, RoutedEventArgs e)
         {
-            var col = Grid.GetColumn(customerListGrid);
-            Grid.SetColumn(customerListGrid, col == 0 ? 2 : 0);
+            _viewModel.MoveNavigation();
         }
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
