@@ -19,13 +19,18 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
             this._customerDataProvider = customerDataProvider;
             AddCommand = new DelegateCommand(Add);
             MoveNavigationCommand = new DelegateCommand(MoveNavigation);
+            DeleteCommand = new DelegateCommand(Delete, CanDelete);
         }
 
         public ObservableCollection<CustomerItemViewModel> Customers { get; } = new();
 
         public DelegateCommand AddCommand { get; }
 
+        public DelegateCommand DeleteCommand { get; }
+
         public DelegateCommand MoveNavigationCommand { get; }
+
+        // Todo Add DeleteCommand...
 
         public CustomerItemViewModel? SelectedCustomer
         {
@@ -34,6 +39,7 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
             {
                 _selectedCustomer = value;
                 RaisePropertyChange(nameof(SelectedCustomer));
+                DeleteCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -72,6 +78,19 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
             var viewModel = new CustomerItemViewModel(customer);
             Customers.Add(new CustomerItemViewModel(customer));
             SelectedCustomer = viewModel;
+        }
+
+        private bool CanDelete(object? parameter)
+        => this.SelectedCustomer is not null;
+
+        private void Delete(object? parameter)
+        {
+            if (SelectedCustomer is not null)
+            {
+                Customers.Remove(SelectedCustomer);
+                SelectedCustomer = null;
+            }
+
         }
 
         private void MoveNavigation(object? parameter)
