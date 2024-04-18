@@ -5,19 +5,19 @@ using WiredBrainCoffee.CustomersApp.Model;
 
 namespace WiredBrainCoffee.CustomersApp.ViewModel
 {
-    public class CustomerViewModel : ViewModelBase
+    public class CustomersViewModel : ViewModelBase
     {
         private readonly ICustomerDataProvider _customerDataProvider;
-        private Customer? _selectedCustomer;
+        private CustomerItemViewModel? _selectedCustomer;
 
-        public CustomerViewModel(ICustomerDataProvider customerDataProvider)
+        public CustomersViewModel(ICustomerDataProvider customerDataProvider)
         {
             this._customerDataProvider = customerDataProvider;
         }
 
-        public ObservableCollection<Customer> Customers { get; } = new();
+        public ObservableCollection<CustomerItemViewModel> Customers { get; } = new();
 
-        public Customer? SelectedCustomer
+        public CustomerItemViewModel? SelectedCustomer
         {
             get => _selectedCustomer;
             set
@@ -42,15 +42,16 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
 
             foreach (var customer in customers)
             {
-                Customers.Add(customer);
+                Customers.Add(new CustomerItemViewModel(customer));
             }
         }
 
         internal void Add()
         {
             var customer = new Customer() { FirstName = "New" };
-            Customers.Add(customer);
-            SelectedCustomer = customer;
+            var viewModel = new CustomerItemViewModel(customer);
+            Customers.Add(new CustomerItemViewModel(customer));
+            SelectedCustomer = viewModel;
         }
     }
 }

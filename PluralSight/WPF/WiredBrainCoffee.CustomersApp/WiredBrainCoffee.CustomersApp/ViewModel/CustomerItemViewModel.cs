@@ -19,7 +19,7 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
 
         public int Id => _customer.Id;
 
-        public string FirstName
+        public string? FirstName
         {
             get => _customer.FirstName;
             set
@@ -29,12 +29,22 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
             }
         }
 
-        public string LastName
+        public string? LastName
         {
             get => _customer.LastName;
             set
             {
                 _customer.LastName = value;
+                RaisePropertyChange();
+            }
+        }
+
+        public bool IsDeveloper
+        {
+            get => _customer.IsDeveloper;
+            set
+            {
+                _customer.IsDeveloper = value;   
                 RaisePropertyChange();
             }
         }

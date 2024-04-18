@@ -22,12 +22,12 @@ namespace WiredBrainCoffee.CustomersApp.View
     /// </summary>
     public partial class CustomersView : UserControl
     {
-        private CustomerViewModel _viewModel;
+        private CustomersViewModel _viewModel;
 
         public CustomersView()
         {
             InitializeComponent();
-            _viewModel = new CustomerViewModel(new CustomerDataProvider());
+            _viewModel = new CustomersViewModel(new CustomerDataProvider());
             DataContext = _viewModel;
             Loaded += CustomersView_Loaded;
         }
