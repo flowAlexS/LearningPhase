@@ -27,7 +27,8 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal">
-                <Button Margin="10" Width="75" Click="ButtonAdd_Click">
+                <Button Margin="10" Width="75"
+                        Command="{Binding AddCommand}">
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/Images/add.png" Height="18" Margin="0 0 5 0"/>
                         <TextBlock Text="Add" />
@@ -35,7 +36,7 @@
                 </Button>
                 <Button Content="Delete" Margin="0 10 10 10" />
                 <Button
-                    Click="ButtonMoveNavigation_Click"
+                    Command="{Binding MoveNavigationCommand}"
                     Margin="0 10 10 10">
                     <Image Source="/Images/move.png" Height="18"/>
                 </Button>
