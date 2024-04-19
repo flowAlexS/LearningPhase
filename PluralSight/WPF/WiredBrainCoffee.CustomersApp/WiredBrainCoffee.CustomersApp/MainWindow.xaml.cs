@@ -25,7 +25,8 @@ namespace WiredBrainCoffee.CustomersApp
             InitializeComponent();
             _viewModel = new MainViewModel(
                 new CustomersViewModel(
-                    new CustomerDataProvider()));
+                    new CustomerDataProvider()),
+                new ProductsViewModel());
             DataContext = _viewModel;
             Loaded += MainWindow_Loaded;
         }
