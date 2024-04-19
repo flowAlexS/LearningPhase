@@ -10,5 +10,13 @@
             <Setter Property="Background" Value="#555" />
             <Setter Property="Foreground" Value="White"/>
         </Style.Setters>
+        <Style.Triggers>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter Property="Background" Value="#111" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="#111" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 </ResourceDictionary>
