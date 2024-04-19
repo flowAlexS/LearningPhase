@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:WiredBrainCoffee.CustomersApp.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-        <Grid Background="#F05a28">
+        <Grid Background="{StaticResource HeaderBackgroundBrush}">
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <Image Margin="5" Source="../Images/logo.png" Width="100"/>
                 <TextBlock VerticalAlignment="Center" Text="Customers App" FontSize="30"
-                        Foreground="White"/>
+                        Foreground="{StaticResource HeaderForegroundBrush}"/>
                 <TextBlock VerticalAlignment="Bottom" 
                            Margin="10 0 0 22"
                            Text="Version 1.0" FontSize="16" 
