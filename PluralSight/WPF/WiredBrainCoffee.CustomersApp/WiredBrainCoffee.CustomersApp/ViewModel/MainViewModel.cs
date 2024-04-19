@@ -15,14 +15,13 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
 			SelectViewModelCommand = new DelegateCommand(SelectViewModel);
         }
 
+		// MY VERSION
+
         public CustomersViewModel CustomersViewModel { get; }
 
         public ProductsViewModel ProductsViewModel { get; }
 
-        public DelegateCommand SelectViewModelCommand
-		{
-			get;
-		}
+        public DelegateCommand SelectViewModelCommand { get; }
 
         public ViewModelBase? SelectedViewModel
 		{
@@ -42,9 +41,10 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
 			}
 		}
 
-        private void SelectViewModel(object? parameter)
+        private async void SelectViewModel(object? parameter)
         {
 			SelectedViewModel = parameter as ViewModelBase;
+			await LoadAsync();
         }
     }
 }
