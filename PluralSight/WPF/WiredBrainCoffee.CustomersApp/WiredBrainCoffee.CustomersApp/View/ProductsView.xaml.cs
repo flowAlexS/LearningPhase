@@ -12,17 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using WiredBrainCoffee.CustomersApp.Data;
-using WiredBrainCoffee.CustomersApp.ViewModel;
 
 namespace WiredBrainCoffee.CustomersApp.View
 {
     /// <summary>
-    /// Interaction logic for CustomersView.xaml
+    /// Interaction logic for ProductsView.xaml
     /// </summary>
-    public partial class CustomersView : UserControl
+    public partial class ProductsView : UserControl
     {
-        public CustomersView()
+        public ProductsView()
         {
             InitializeComponent();
         }

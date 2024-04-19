@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WiredBrainCoffee.CustomersApp.Data;
+using WiredBrainCoffee.CustomersApp.ViewModel;
 
 namespace WiredBrainCoffee.CustomersApp
 {
@@ -16,21 +18,21 @@ namespace WiredBrainCoffee.CustomersApp
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly MainViewModel _viewModel;
+
         public MainWindow()
         {
             InitializeComponent();
+            _viewModel = new MainViewModel(
+                new CustomersViewModel(
+                    new CustomerDataProvider()));
+            DataContext = _viewModel;
+            Loaded += MainWindow_Loaded;
         }
 
-        //public void ButtonMoveNavigation_Click(object sender, RoutedEventArgs e)
-        //{
-        //    // Read Write attached property...
-        //    //var column =  (int)customerListGrid.GetValue(Grid.ColumnProperty);
-        //    //var newColumn = column == 0 ? 2 : 0;
-        //    //customerListGrid.SetValue(Grid.ColumnProperty, newColumn);
-
-        //    var col = Grid.GetColumn(customerListGrid);
-        //    var newCol = col == 0 ? 2 : 0;
-        //    Grid.SetColumn(customerListGrid, newCol);
-        //}
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            await _viewModel.LoadAsync();
+        }
     }
 }
