@@ -62,11 +62,15 @@
         <StackPanel Grid.Column="1" Margin="10"
                     Visibility="{Binding IsCustomerSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
             <StackPanel.Resources>
-                <Style TargetType="TextBox" x:Key="TextBoxStyle">
+                <Style TargetType="TextBox" x:Key="TextBoxBaseStyle">
+                    <Setter Property="Padding" Value="5" />
+                </Style>
+                
+                <Style TargetType="TextBox" x:Key="TextBoxStyle"
+                       BasedOn="{StaticResource TextBoxBaseStyle}">
                     <Style.Setters>
                         <Setter Property="Background" Value="#555" />
                         <Setter Property="Foreground" Value="White"/>
-                        <Setter Property="Padding" Value="5" />
                     </Style.Setters>
                 </Style>
             </StackPanel.Resources>
