@@ -8,7 +8,7 @@ using WiredBrainCoffee.CustomersApp.Model;
 
 namespace WiredBrainCoffee.CustomersApp.ViewModel
 {
-    public class CustomerItemViewModel : ViewModelBase
+    public class CustomerItemViewModel : ValidationViewModelBase
     {
         private readonly Customer _customer;
 
@@ -26,6 +26,15 @@ namespace WiredBrainCoffee.CustomersApp.ViewModel
             {
                 _customer.FirstName = value;
                 RaisePropertyChange();
+
+                if (string.IsNullOrEmpty(_customer.FirstName))
+                {
+                    AddError("Firstname is required");
+                }
+                else
+                {
+                    ClearErrors();
+                }
             }
         }
 
